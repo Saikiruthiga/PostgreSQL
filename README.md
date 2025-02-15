@@ -1,2 +1,2 @@
-# PstgreSQL
-PstgreSQL assignments from my Coursera course
+# PostgreSQL
+PostgreSQL assignments from my Coursera course
