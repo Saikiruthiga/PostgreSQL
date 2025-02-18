@@ -1,0 +1,10 @@
+
+Psql command for connecting db-  psql -h pg.pg4e.com -p 5432 -U pg4e_2af48412dd pg4e_2af48412dd
+
+CREATE TABLE track_raw (title TEXT, artist TEXT, album TEXT, count INTEGER, rating INTEGER, len INTEGER);
+
+Psql command for copying from a file to the table - \copy track_raw(title,artist,album,count,rating,len) FROM 'library.csv' WITH DELIMITER ',' CSV;
+
+SELECT title, album FROM track_raw ORDER BY title LIMIT 3;
+
+
