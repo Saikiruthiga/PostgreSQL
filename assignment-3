@@ -1,0 +1,34 @@
+
+Psql command for connecting database - psql -h pg.pg4e.com -p 5432 -U pg4e_2af48412dd pg4e_2af48412dd
+
+Make and model table creation
+CREATE TABLE make (
+    id SERIAL,
+    name VARCHAR(128) UNIQUE,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE model (
+  id SERIAL,
+  name VARCHAR(128),
+  make_id INTEGER REFERENCES make(id) ON DELETE CASCADE,
+  PRIMARY KEY(id)
+);
+
+Inserting values on make table
+Insert into make (name) values (‘CODA Automotive‘);
+Insert into make (name) values (‘CX Automotive’);
+Insert into make(name) values(‘Chevrolet’);
+
+Inserting values into model using the foreign key with the available data
+insert into model (name,make_id) values('CODA',1);
+insert into model (name,make_id) values(‘CX 25 GTI’,2);
+insert into model (name,make_id) values('CX 25 Prestige',2);
+insert into model (name,make_id)values('Cruze Premier',3);
+insert into model (name,make_id)values('Cruze Premier Hatchback',3);
+
+Join and orderby sql queries
+SELECT make.name, model.name
+    FROM model
+    JOIN make ON model.make_id = make.id
+    ORDER BY make.name LIMIT 5;
