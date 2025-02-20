@@ -1,0 +1,98 @@
+Psql command for connecting database: - 
+psql -h pg.pg4e.com -p 5432 -U pg4e_2af48412dd pg4e_2af48412dd
+
+creating tables:-
+CREATE TABLE student (
+    id SERIAL,
+    name VARCHAR(128) UNIQUE,
+    PRIMARY KEY(id)
+);
+
+DROP TABLE course CASCADE;
+CREATE TABLE course (
+    id SERIAL,
+    title VARCHAR(128) UNIQUE,
+    PRIMARY KEY(id)
+);
+
+DROP TABLE roster CASCADE;
+CREATE TABLE roster (
+    id SERIAL,
+    student_id INTEGER REFERENCES student(id) ON DELETE CASCADE,
+    course_id INTEGER REFERENCES course(id) ON DELETE CASCADE,
+    role INTEGER,
+    UNIQUE(student_id, course_id),
+    PRIMARY KEY (id)
+);
+
+
+Task- Assignment-4
+
+You will normalize the following data (each user gets different data), and insert the following data items into your database, creating and linking all the foreign keys properly. Encode instructor with a role of 1 and a learner with a role of 0.
+Alieshah, si106, Instructor
+Carson, si106, Learner
+Dominic, si106, Learner
+Kaidey, si106, Learner
+Zakir, si106, Learner
+Kera, si110, Instructor
+Krzysiek, si110, Learner
+Liona, si110, Learner
+Loren, si110, Learner
+Niome, si110, Learner
+Leya, si206, Instructor
+Eaden, si206, Learner
+Lea, si206, Learner
+Mornach, si206, Learner
+Virginia, si206, Learner
+
+
+Inserting values in the student table ( it includes both learner and instructor)
+insert into student (name) values ('Alieshah');
+insert into student (name) values ('Carson');
+insert into student (name) values ('Dominic');
+insert into student (name) values ('Kaidey');
+insert into student (name) values ('Zakir');
+insert into student (name) values ('Kera');
+insert into student (name) values ('Krzysiek');
+insert into student (name) values ('Liona');
+insert into student (name) values ('Loren');
+insert into student (name) values ('Niome');
+insert into student (name) values ('Leya');
+insert into student (name) values ('Eaden');
+insert into student (name) values ('Lea');
+insert into student (name) values ('Mornach');
+insert into student (name) values ('Virginia');
+
+inserting values in course table
+insert into course (title) values ('si106');
+insert into course (title) values ('si110');
+insert into course (title) values ('si206');
+
+inserting values in roster table
+insert into roster (student_id,course_id,role) values (1,1,1);
+insert into roster (student_id,course_id,role) values (2,1,0);
+insert into roster (student_id,course_id,role) values (3,1,0);
+insert into roster (student_id,course_id,role) values (4,1,0);
+insert into roster (student_id,course_id,role) values (5,1,0);
+insert into roster (student_id,course_id,role) values (6,2,1);
+insert into roster (student_id,course_id,role) values (7,2,0);
+insert into roster (student_id,course_id,role) values (8,2,0);
+insert into roster (student_id,course_id,role) values (9,2,0);
+insert into roster (student_id,course_id,role) values (10,2,0);
+insert into roster (student_id,course_id,role) values (11,3,1);
+insert into roster (student_id,course_id,role) values (12,3,0);
+insert into roster (student_id,course_id,role) values (13,3,0);
+insert into roster (student_id,course_id,role) values (14,3,0);
+insert into roster (student_id,course_id,role) values (15,3,0);
+
+
+
+You can test to see if your data has been entered properly with the following SQL statement.
+SELECT student.name, course.title, roster.role
+    FROM student 
+    JOIN roster ON student.id = roster.student_id
+    JOIN course ON roster.course_id = course.id
+    ORDER BY course.title, roster.role DESC, student.name;
+The order of the data and number of rows that comes back from this query should be the same as above. There should be no missing or extra data in your query.
+
+Testing done, everything working fine
