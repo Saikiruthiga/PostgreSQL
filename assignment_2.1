@@ -1,0 +1,52 @@
+To access the database
+psql -h pg.pg4e.com -p 5432 -U pg4e_1886d2596c pg4e_1886d2596c
+creating table
+CREATE TABLE pg4e_debug (
+  id SERIAL,
+  query VARCHAR(4096),
+  result VARCHAR(4096),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY(id)
+);
+SELECT query, result, created_at FROM pg4e_debug;
+Creating table for result
+CREATE TABLE pg4e_result (
+  id SERIAL,
+  link_id INTEGER UNIQUE,
+  score FLOAT,
+  title VARCHAR(4096),
+  note VARCHAR(4096),
+  debug_log VARCHAR(8192),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP
+);
+Alter table:
+alter table pg4e_debug add column neon851 integer;
+check:
+SELECT neon851 FROM pg4e_debug LIMIT 1;
+Using distinct:
+Select distinct state from taxdata order by state asc limit 5;
+Creating table and adding Stored procedure:
+CREATE TABLE keyvalue ( 
+  id SERIAL,
+  key VARCHAR(128) UNIQUE,
+  value VARCHAR(128) UNIQUE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY(id)
+);
+
+Creating stored procedure:
+Create or replace function trigger_set_timestamp()
+Returns trigger as $$
+Begin
+New.updated_at=now();
+Return new;
+End;
+$$ language plpgsql;
+
+Setting up the procedure for the table:
+Create trigger trigger_set_timestamp
+Before update on keyvalue
+For each row
+Execute procedure trigger_set_timestamp();
